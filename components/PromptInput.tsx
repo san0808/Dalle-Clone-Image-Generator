@@ -1,9 +1,15 @@
 "use client"; 
 import React from 'react'
+import useSWR from 'swr'
 
 function PromptInput() {
     const [prompt, setPrompt] = React.useState('')
-  
+    const { data: suggestions, mutate ,isValidating ,isLoading } = useSWR(
+        '/api/suggestion', 
+        { 
+            revalidateOnFocus: false,
+        }
+    )
 
   return (
     <div className='m-10'>

@@ -16,7 +16,7 @@ function PromptInput() {
             />
 
             <button 
-                className={`p-4 bg-violet-500 text-white transition-colors duration-200 font-bold rounded-t-md md:rounded-t-none md:rounded-r-md disabled:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-400`} 
+                className={`p-4 ${prompt ? 'bg-violet-500 text-white transition-colors duration-200' : 'text-gray-300 cursor-not-allowed'}  `} 
                 type='submit'
                 disabled={prompt.length === 0}
             >

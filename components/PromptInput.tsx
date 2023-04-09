@@ -5,7 +5,7 @@ import useSWR from 'swr'
 function PromptInput() {
     const [prompt, setPrompt] = React.useState('')
     const { data: suggestions, mutate ,isValidating ,isLoading } = useSWR(
-        '/api/suggestion', 
+        '/api/suggest', 
         { 
             revalidateOnFocus: false,
         }

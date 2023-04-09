@@ -1,8 +1,10 @@
-const fetchsuggestion = () => {
-    fetch('/api/suggestion', {
-        cache: 'no-cache',
-    },).then((response) => {response.json()});
-
-};
-
-export default fetchsuggestion;
+const fetchsuggestion = async (prompt: string) => {
+    const response = await fetch(`/api/suggestion?prompt=${prompt}`, {
+      cache: 'no-cache',
+    });
+    const data = await response.json();
+    return data.suggestions;
+  };
+  
+  export default fetchsuggestion;
+  

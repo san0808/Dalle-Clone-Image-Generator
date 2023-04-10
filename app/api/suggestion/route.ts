@@ -1,20 +1,42 @@
-// import { Request } from 'express';
-// import openai from '../../../openai';
+export async function GET(request: Request) {
+  const response = await fetch(
+    "http://localhost:3000/",
+    {
+      cache: "no-store",
+    }
+  );
+  const textData = await response.text();
 
-// export async function GET(request: Request) {
-//   // const prompt = request.query.prompt as string;
-//   const response = await openai.createCompletion({
-//     model: 'text-davinci-003',
-//     prompt: "Write a random text prompt for DALL·E to generate an image, this prompt will be shown to the user, include details such as the genre and what type of painting it should be, options can include: oil painting, watercolor, photo-realistic, 4k, abstract, modern, black and white etc. Do not wrap the answer in quotes.",
-//     max_tokens: 10,
-//     n: 1,
-//     stop: ['\n'],
-//     temperature: 0.7,
+  return new Response(JSON.stringify(textData.trim()), {
+    status: 200,
+  });
+}
+
+//this is not in use for now 
+
+
+
+
+
+
+// import { NextApiRequest, NextApiResponse } from 'next';
+// import axios from 'axios';
+
+// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+//   if (req.method !== 'GET') {
+//     res.status(405).json({ message: 'Method not allowed' });
+//     return;
+//   }
+  
+//   const prompt = req.query.prompt;
+//   const gptResponse = await axios.get(`https://api.openai.com/v1/engines/davinci-codex/completions?prompt=${prompt}&max_tokens=50`, {
+//     headers: {
+//       Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
+//     }
 //   });
-//   const suggestion = response.data.choices[0].text?.trim();
-//   return new Response(JSON.stringify({ suggestion  }), {
-//     status: 200,
-//   });
+//   const suggestions = gptResponse.data.choices[0].text;
+//   res.json({ suggestions });
 // }
 
 
+  

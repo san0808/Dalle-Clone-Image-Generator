@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   });
 }
 
-//this is not in use for now 
+//this is not in use for now as route.ts still gives some error to connect
 
 
 

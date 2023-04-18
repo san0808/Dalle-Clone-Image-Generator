@@ -13,7 +13,7 @@ function PromptInput() {
       } = useSWR("suggestion", fetchsuggestion, {
         revalidateOnFocus: false,
       });
-
+    console.log(suggestion)
     //   const { mutate: updateImages } = useSWR("images", fetchImages, {
     //     revalidateOnFocus: false,
     //   });
@@ -69,7 +69,7 @@ function PromptInput() {
     <div className='m-10'>
         <form 
             // onSubmit={handleSubmit}
-            className='flex flex-col lg:flex-row shadow-md shadow-slate-400/10 border rounded-md lg:divide-x'>
+            className='flex flex-col lg:flex-row shadow-md shadow-slate-400/10 border rounded-md md:divide-x'>
             <textarea 
                 
                 value={prompt}

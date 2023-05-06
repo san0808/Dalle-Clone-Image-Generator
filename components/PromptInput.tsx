@@ -1,7 +1,9 @@
 "use client"; 
 import fetchsuggestion from '@/lib/fetchsuggestion';
-import React from 'react'
+// import fetchImages from "../lib/fetchImagedata";
+import React, { FormEvent } from 'react'
 import useSWR from 'swr'
+import toast from "react-hot-toast";
 
 function PromptInput() {
     const [prompt, setPrompt] = React.useState('')
@@ -14,62 +16,62 @@ function PromptInput() {
         revalidateOnFocus: false,
       });
     console.log(suggestion)
-    //   const { mutate: updateImages } = useSWR("images", fetchImages, {
-    //     revalidateOnFocus: false,
-    //   });
+      // const { mutate: updateImages } = useSWR("images", fetchImages, {
+      //   revalidateOnFocus: false,
+      // });
     
-    //   const submitPrompt = async (useSuggestion?: boolean) => {
-    //     const inputPrompt = prompt;
-    //     console.log(inputPrompt);
-    //     setPrompt("");
+      // const submitPrompt = async (useSuggestion?: boolean) => {
+      //   const inputPrompt = prompt;
+      //   console.log(inputPrompt);
+      //   setPrompt("");
     
-    //     const notificationPrompt = inputPrompt || suggestion;
-    //     const notificationPromptShort = notificationPrompt.slice(0, 20);
+      //   const notificationPrompt = inputPrompt || suggestion;
+      //   const notificationPromptShort = notificationPrompt.slice(0, 20);
     
-    //     const notification = toast.loading(
-    //       `DALL·E is creating: ${notificationPromptShort}...`
-    //     );
+      //   const notification = toast.loading(
+      //     `DALL·E is creating: ${notificationPromptShort}...`
+      //   );
     
-    //     const p = useSuggestion
-    //       ? suggestion
-    //       : inputPrompt || (!isLoading && !isValidating && suggestion);
+      //   const p = useSuggestion
+      //     ? suggestion
+      //     : inputPrompt || (!isLoading && !isValidating && suggestion);
     
-    //     const res = await fetch("/api/generateImage", {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify({
-    //         prompt: p,
-    //       }),
-    //     });
+      //   const res = await fetch("/api/generateImage", {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify({
+      //       prompt: p,
+      //     }),
+      //   });
     
-    //     const data = await res.json();
+      //   const data = await res.json();
     
-    //     if (data.error) {
-    //       toast.error(data.error);
-    //     } else {
-    //       toast.success(`Your AI Art has been Generated!`, {
-    //         id: notification,
-    //       });
-    //     }
+      //   if (data.error) {
+      //     toast.error(data.error);
+      //   } else {
+      //     toast.success(`Your AI Art has been Generated!`, {
+      //       id: notification,
+      //     });
+      //   }
     
-    //     updateImages();
-    //   };
+      //   updateImages();
+      // };
     
-    //   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    //     e.preventDefault();
+      // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+      //   e.preventDefault();
     
-    //     await submitPrompt();
-    //   };
+      //   await submitPrompt();
+      // };
     
-      const loading = isValidating || isLoading;
+       const loading = isValidating || isLoading;
 
   return (
     <div className='m-10'>
         <form 
-            // onSubmit={handleSubmit}
-            className='flex flex-col lg:flex-row shadow-md shadow-slate-400/10 border rounded-md md:divide-x'>
+            //onSubmit={handleSubmit}
+            className='flex flex-col lg:flex-row shadow-md shadow-slate-400/10 border rounded-md lg:divide-x'>
             <textarea 
                 
                 value={prompt}
@@ -91,7 +93,7 @@ function PromptInput() {
 
             <button 
                 className='p-4 bg-violet-400 text-white transition-colors duration-200 font-bold disabled:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-400 ' type='button'
-                // onClick={() => submitPrompt(true)}
+                //onClick={() => submitPrompt(true)}
                 disabled={isLoading || isValidating}
                 
             >
@@ -99,7 +101,7 @@ function PromptInput() {
             </button>
 
             <button className='p-4 bg-white text-violet-500 border-none transition-colors duration-200 font-bold rounded-b-md  md:rounded-r-md md:rounded-bl-none   ' type='button'  
-              //onClick={mutate}
+              // onClick={mutate}
               >
                 New Suggestion
             </button>

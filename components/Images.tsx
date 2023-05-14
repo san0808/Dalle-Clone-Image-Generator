@@ -10,7 +10,7 @@ type ImageType = {
 };
 
 async function fetchImages(): Promise<ImageType[]> {
-  const res = await fetch("/api/images");
+  const res = await fetch("http://localhost:3000/images");
   const data = await res.json();
   return data;
 }

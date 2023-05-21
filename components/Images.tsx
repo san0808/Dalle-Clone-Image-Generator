@@ -12,8 +12,14 @@ type ImageType = {
 async function fetchImages(): Promise<ImageType[]> {
   const res = await fetch("http://localhost:3000/images");
   const data = await res.json();
-  return data;
+  return data.map((image: { _id: any; filename: any; contentType: any; imageData: string; }) => ({
+    _id: image._id,
+    filename: image.filename,
+    contentType: image.contentType,
+    imageData: Buffer.from(image.imageData, "base64").toString()
+  }));
 }
+
 
 function Images() {
   const { data: images, error } = useSWR("images", fetchImages);
@@ -37,5 +43,6 @@ function Images() {
     </div>
   );
 }
+
 
 export default Images;

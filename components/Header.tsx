@@ -9,7 +9,7 @@ function Header() {
             <Image src="https://www.svgrepo.com/show/306500/openai.svg" alt="Logo" width={30} height={30} />
             <div>
                 <h1 className='font-bold'>
-                    Dalle <span className='text-violet-500'>AI</span> Image Generator CLone
+                    Dalle <span className='text-orangey-500'>AI</span> Image Generator CLone
                 </h1>
                 
             </div>

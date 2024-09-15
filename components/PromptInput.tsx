@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 
 function PromptInput() {
   const [prompt, setPrompt] = React.useState('')
+  const [isGenerating, setIsGenerating] = React.useState(false);
   const {
     data: suggestion,
     isLoading,
@@ -21,6 +22,7 @@ function PromptInput() {
   });
 
   const submitPrompt = async (useSuggestion?: boolean) => {
+    setIsGenerating(true);
     const inputPrompt = prompt;
     setPrompt('');
     const notificationPrompt = useSuggestion ? suggestion ?? '' : inputPrompt;
@@ -57,10 +59,10 @@ function PromptInput() {
       console.error('Error generating or storing image:', error);
       toast.error('An error occurred while generating or storing the image.');
     } finally {
+      setIsGenerating(false);
       updateImages();
   }
 };
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -86,20 +88,24 @@ function PromptInput() {
         />
 
         <button
-          className={`p-4 ${prompt ? 'bg-orange-500 text-white transition-colors duration-200' : 'text-gray-300 cursor-not-allowed'}  `}
+          className={`p-4 ${
+            prompt && !isGenerating
+              ? 'bg-orange-500 text-white transition-colors duration-200'
+              : 'text-gray-300 cursor-not-allowed'
+          }`}
           type='submit'
-          disabled={prompt.length === 0}
+          disabled={prompt.length === 0 || isGenerating}
         >
-          Generate
+          {isGenerating ? 'Generating...' : 'Generate'}
         </button>
 
         <button
           className='p-4 bg-orange-400 text-white transition-colors duration-200 font-bold disabled:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-400'
           type='button'
-          onClick={() => submitPrompt(true)} // Pass true to indicate using the suggestion
-          disabled={isLoading || isValidating}
+          onClick={() => submitPrompt(true)}
+          disabled={isLoading || isValidating || isGenerating}
         >
-          Use Suggestion
+          {isGenerating ? 'Generating...' : 'Use Suggestion'}
         </button>
 
         <button

@@ -75,56 +75,53 @@ function PromptInput() {
     <div className='m-10'>
       <form
         onSubmit={handleSubmit}
-        className='flex flex-col lg:flex-row shadow-md shadow-slate-400/10 border rounded-md lg:divide-x'
+        className='flex flex-col shadow-md shadow-slate-400/10 border rounded-md'
       >
         <textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
-          placeholder={(loading && "ChatGPT is thinking of a suggestion...") ||
-            suggestion ||
-            "Enter a prompt..."
-          }
-          className='flex-1 p-4 outline-none rounded-md'
+          placeholder="Enter a prompt..."
+          className='flex-1 p-4 outline-none rounded-t-md'
         />
-
-        <button
-          className={`p-4 ${
-            prompt && !isGenerating
-              ? 'bg-orange-500 text-white transition-colors duration-200'
-              : 'text-gray-300 cursor-not-allowed'
-          }`}
-          type='submit'
-          disabled={prompt.length === 0 || isGenerating}
-        >
-          {isGenerating ? 'Generating...' : 'Generate'}
-        </button>
-
-        <button
-          className='p-4 bg-orange-400 text-white transition-colors duration-200 font-bold disabled:text-gray-300 disabled:cursor-not-allowed disabled:bg-gray-400'
-          type='button'
-          onClick={() => submitPrompt(true)}
-          disabled={isLoading || isValidating || isGenerating}
-        >
-          {isGenerating ? 'Generating...' : 'Use Suggestion'}
-        </button>
-
-        <button
-          className='p-4 bg-white text-orange-500 border-none transition-colors duration-200 font-bold rounded-b-md md:rounded-r-md md:rounded-bl-none'
-          type='button'
-          onClick={() => mutate()}
-        >
-          New Suggestion
-        </button>
-
+        
+        {suggestion && (
+          <div className="bg-gray-100 p-4 flex items-center justify-between">
+            <p className="text-sm text-gray-600">
+              Suggestion: <span className="font-medium text-orange-500">{suggestion}</span>
+            </p>
+            <button
+              type="button"
+              onClick={() => setPrompt(suggestion)}
+              className="text-orange-500 hover:text-orange-600"
+            >
+              Use Suggestion
+            </button>
+          </div>
+        )}
+  
+        <div className="flex">
+          <button
+            className={`flex-1 p-4 ${
+              prompt && !isGenerating
+                ? 'bg-orange-500 text-white transition-colors duration-200'
+                : 'text-gray-300 cursor-not-allowed'
+            }`}
+            type='submit'
+            disabled={prompt.length === 0 || isGenerating}
+          >
+            {isGenerating ? 'Generating...' : 'Generate'}
+          </button>
+  
+          <button
+            className='flex-1 p-4 bg-white text-orange-500 border-l transition-colors duration-200 font-bold'
+            type='button'
+            onClick={() => mutate()}
+            disabled={isLoading || isValidating}
+          >
+            {isLoading || isValidating ? 'Loading...' : 'New Suggestion'}
+          </button>
+        </div>
       </form>
-      {prompt && (
-        <p className="italic pt-2 pl-2 font-light">
-          Suggestion:{" "}
-          <span className="text-orange-500">
-            {loading ? "ChatGPT is thinking..." : suggestion}
-          </span>
-        </p>
-      )}
     </div>
   );
 }

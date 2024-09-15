@@ -19,8 +19,12 @@ async function fetchImages(): Promise<ImageType[]> {
   }));
 }
 
+type ImagesProps = {
+  latestImageId?: string;
+};
 
-function Images() {
+
+function Images({ latestImageId }: ImagesProps) {
   const { data: images, error } = useSWR("images", fetchImages);
   
   if (error) return <div>Failed to load images</div>;
@@ -29,18 +33,26 @@ function Images() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {images.map((image) => (
-        <div key={image._id}>
+        <div
+          key={image._id}
+          className={`relative ${
+            image._id === latestImageId ? 'ring-4 ring-orange-500' : ''
+          }`}
+        >
           <Image
             src={`data:${image.contentType};base64,${image.imageData}`}
             alt={image.filename}
             width={300}
             height={300}
+            className="object-cover w-full h-full"
           />
-          
-          {/* <p>{image.filename}</p> */}
+          {image._id === latestImageId && (
+            <span className="absolute top-2 left-2 bg-orange-500 text-white px-2 py-1 text-sm rounded">
+              New
+            </span>
+          )}
         </div>
       ))}
-      
     </div>
   );
 }

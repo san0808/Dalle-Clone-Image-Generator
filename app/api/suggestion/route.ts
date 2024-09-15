@@ -1,42 +1,19 @@
+import { NextResponse } from 'next/server';
+import openai from '@/openai';
+
 export async function GET(request: Request) {
-  const response = await fetch(
-    "http://localhost:3000/",
-    {
-      cache: "no-store",
-    }
-  );
-  const textData = await response.text();
+  try {
+    const prompt = 'Generate a suggestion for an image prompt';
+    const response = await openai.createChatCompletion({
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.7,
+    });
 
-  return new Response(JSON.stringify(textData.trim()), {
-    status: 200,
-  });
+    const suggestion = response.data.choices[0].message.content.trim();
+    return NextResponse.json({ suggestion });
+  } catch (error) {
+    console.error('Error generating suggestion:', error);
+    return NextResponse.json({ error: 'Failed to generate suggestion' }, { status: 500 });
+  }
 }
-
-//this is not in use for now as route.ts still gives some error to connect
-
-
-
-
-
-
-// import { NextApiRequest, NextApiResponse } from 'next';
-// import axios from 'axios';
-
-// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-//   if (req.method !== 'GET') {
-//     res.status(405).json({ message: 'Method not allowed' });
-//     return;
-//   }
-  
-//   const prompt = req.query.prompt;
-//   const gptResponse = await axios.get(`https://api.openai.com/v1/engines/davinci-codex/completions?prompt=${prompt}&max_tokens=50`, {
-//     headers: {
-//       Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
-//     }
-//   });
-//   const suggestions = gptResponse.data.choices[0].text;
-//   res.json({ suggestions });
-// }
-
-
-  

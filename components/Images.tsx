@@ -10,16 +10,12 @@ type ImageType = {
 };
 
 async function fetchImages(): Promise<ImageType[]> {
-  const res = await fetch("http://localhost:3000/images");
+  const res = await fetch('/api/images');
   const data = await res.json();
-  
-  
-  return data.map((image: { _id: any; filename: any; contentType: any; imageData: string; }) => ({
+
+  return data.map((image: { _id: string; imageUrl: string }) => ({
     _id: image._id,
-    filename: image.filename,
-    contentType: image.contentType,
-    imageData: Buffer.from(image.imageData, "base64").toString("base64"),
-    
+    imageUrl: image.imageUrl,
   }));
 }
 

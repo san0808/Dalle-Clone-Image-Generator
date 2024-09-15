@@ -72,58 +72,59 @@ function PromptInput() {
   const loading = isValidating || isLoading;
 
   return (
-    <div className='m-10'>
-      <form
-        onSubmit={handleSubmit}
-        className='flex flex-col shadow-md shadow-slate-400/10 border rounded-md'
-      >
-        <textarea
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Enter a prompt..."
-          className='flex-1 p-4 outline-none rounded-t-md'
-        />
-        
-        {suggestion && (
-          <div className="bg-gray-100 p-4 flex items-center justify-between">
-            <p className="text-sm text-gray-600">
-              Suggestion: <span className="font-medium text-orange-500">{suggestion}</span>
-            </p>
+      <div className='m-10'>
+        <form
+          onSubmit={handleSubmit}
+          className='flex flex-col shadow-md shadow-slate-400/10 border rounded-md overflow-hidden'
+        >
+          <textarea
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder="Enter a prompt..."
+            className='flex-1 p-4 outline-none rounded-t-md resize-none'
+            rows={4}
+          />
+          
+          {suggestion && (
+            <div className="bg-orange-50 p-4 flex items-center justify-between border-t border-orange-100">
+              <p className="text-sm text-gray-700">
+                Suggestion: <span className="font-medium text-orange-600">{suggestion}</span>
+              </p>
+              <button
+                type="button"
+                onClick={() => setPrompt(suggestion)}
+                className="text-orange-600 hover:text-orange-700 font-medium text-sm"
+              >
+                Use Suggestion
+              </button>
+            </div>
+          )}
+  
+          <div className="flex">
             <button
-              type="button"
-              onClick={() => setPrompt(suggestion)}
-              className="text-orange-500 hover:text-orange-600"
+              className={`flex-1 p-4 ${
+                prompt && !isGenerating
+                  ? 'bg-orange-500 hover:bg-orange-600 text-white transition-colors duration-200'
+                  : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+              }`}
+              type='submit'
+              disabled={prompt.length === 0 || isGenerating}
             >
-              Use Suggestion
+              {isGenerating ? 'Generating...' : 'Generate'}
+            </button>
+  
+            <button
+              className='flex-1 p-4 bg-blue-500 hover:bg-blue-600 text-white transition-colors duration-200 font-medium border-l border-blue-400'
+              type='button'
+              onClick={() => mutate()}
+              disabled={isLoading || isValidating}
+            >
+              {isLoading || isValidating ? 'Loading...' : 'New Suggestion'}
             </button>
           </div>
-        )}
-  
-        <div className="flex">
-          <button
-            className={`flex-1 p-4 ${
-              prompt && !isGenerating
-                ? 'bg-orange-500 text-white transition-colors duration-200'
-                : 'text-gray-300 cursor-not-allowed'
-            }`}
-            type='submit'
-            disabled={prompt.length === 0 || isGenerating}
-          >
-            {isGenerating ? 'Generating...' : 'Generate'}
-          </button>
-  
-          <button
-            className='flex-1 p-4 bg-white text-orange-500 border-l transition-colors duration-200 font-bold'
-            type='button'
-            onClick={() => mutate()}
-            disabled={isLoading || isValidating}
-          >
-            {isLoading || isValidating ? 'Loading...' : 'New Suggestion'}
-          </button>
-        </div>
-      </form>
-    </div>
-  );
-}
+        </form>
+      </div>
+    );
+  }
 
 export default PromptInput

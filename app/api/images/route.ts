@@ -38,11 +38,11 @@ export async function POST(req: Request) {
     // Get a reference to the "test.images" collection in MongoDB
     const collection = client.db('test').collection('images');
 
-    // Get the image data from the request body
-    const imageData = await req.json();
+    // Get the image URL from the request body
+    const { imageUrl } = await req.json();
 
-    // Store the image data in MongoDB
-    const result = await collection.insertOne(imageData);
+    // Store the image URL in MongoDB
+    const result = await collection.insertOne({ imageUrl });
 
     // Close the MongoDB connection
     await client.close();
